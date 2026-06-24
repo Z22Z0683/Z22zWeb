@@ -1,0 +1,205 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Space-From Z22z</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="stylesheet" href="./styles.css?v=20260601-adaptive-song-title" />
+  </head>
+  <body>
+    <canvas id="world" aria-hidden="true"></canvas>
+    <canvas id="petals" aria-hidden="true"></canvas>
+
+    <main>
+      <section class="site-title-visual" aria-label="Title artwork">
+        <img src="./assets/title2.png" alt="Glass Music Room title artwork" />
+      </section>
+
+      <section class="hero" aria-label="Personal introduction">
+        <div class="hero-copy">
+          <p class="eyebrow">Interactive profile / sound diary</p>
+          <h1>Z14Ju2e</h1>
+          <p class="intro">
+            の私人音乐播放网站
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a href="#music" class="primary-action">前往音乐空间</a>
+            <input
+              id="musicImportInput"
+              type="file"
+              accept="audio/*,.mp3,.wav,.ogg,.oga,.opus,.m4a,.mp4,.aac,.flac,.webm,.ncm"
+              multiple
+              hidden
+            />
+          </div>
+        </div>
+
+        <aside class="signal-panel" id="profile">
+          <div>
+            <span>Location</span>
+            <strong>河南</strong>
+          </div>
+          <div>
+            <span>Focus</span>
+            <strong>音乐空间、动画</strong>
+          </div>
+          <div>
+            <span>Contact</span>
+            <strong><a href="mailto:3519672704@qq.com">3519672704@qq.com</a></strong>
+          </div>
+           </aside>
+      </section>
+
+      <section class="music-section" id="music" aria-label="Glass music player">
+        <section class="glass-player" id="glassPlayer" aria-label="Music player">
+          <div class="glass-shards" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <canvas class="audio-visualizer-canvas" id="audioVisualizerCanvas" aria-hidden="true"></canvas>
+
+          <header class="player-chrome">
+            <div>
+              <p class="eyebrow">音乐夹</p>
+              <h2>音乐空间</h2>
+            </div>
+            <div class="track-search" role="search">
+              <label class="sr-only" for="trackSearchInput">搜索音乐</label>
+              <i data-lucide="search"></i>
+              <input id="trackSearchInput" type="search" autocomplete="off" placeholder="搜索音乐" />
+              <button class="track-search-clear" type="button" id="trackSearchClear" aria-label="清空搜索" hidden>
+                <i data-lucide="x"></i>
+              </button>
+              <span id="trackSearchStatus" aria-live="polite">39 首</span>
+            </div>
+          </header>
+
+          <div class="selector-view" id="selectorView">
+            <div class="wheel-stage" aria-label="Song selector">
+              <div class="track-wheel" id="trackGrid"></div>
+            </div>
+
+            <aside class="track-preview" aria-live="polite">
+              <p class="preview-index" id="previewIndex">01 / 04</p>
+              <h3 id="previewTitle">Track title</h3>
+              <p id="previewArtist"></p>
+              <div class="preview-actions">
+                <button class="icon-button" type="button" id="wheelPrev" aria-label="Previous song">
+                  <i data-lucide="arrow-up"></i>
+                </button>
+                <button class="enter-button" type="button" id="enterTrack">
+                  <span>进入</span>
+                  <i data-lucide="arrow-right"></i>
+                </button>
+                <button class="icon-button" type="button" id="wheelNext" aria-label="Next song">
+                  <i data-lucide="arrow-down"></i>
+                </button>
+              </div>
+            </aside>
+          </div>
+
+          <div class="detail-view" id="detailView">
+            <button class="back-button" type="button" id="backToSelector">
+              <i data-lucide="arrow-left"></i>
+              <span>返回</span>
+            </button>
+
+            <div class="album-stage">
+              <div class="player-art-wrap">
+                <img id="playerArt" alt="" />
+                <div class="disc-light"></div>
+              </div>
+
+              <div class="player-meta">
+                <p id="playerArtist"></p>
+                <h3 id="playerTitle">Track title</h3>
+                <p id="playerAlbum"></p>
+              </div>
+            </div>
+
+
+            <div class="player-controls">
+              <div class="visualizer-track-name" id="visualizerTrackName">Track title</div>
+              <div class="visualizer-track-artist" id="visualizerTrackArtist">Artist</div>
+              <button class="icon-button" type="button" id="prevTrack" aria-label="Previous track">
+                <i data-lucide="skip-back"></i>
+              </button>
+              <button class="icon-button play-button" type="button" id="playToggle" aria-label="Play">
+                <i data-lucide="play"></i>
+              </button>
+              <button class="icon-button" type="button" id="nextTrack" aria-label="Next track">
+                <i data-lucide="skip-forward"></i>
+              </button>
+              <div
+                class="progress"
+                id="progressTrack"
+                role="slider"
+                tabindex="0"
+                aria-label="Playback progress"
+                aria-valuemin="0"
+                aria-valuemax="0"
+                aria-valuenow="0"
+              >
+                <div id="progressFill"></div>
+              </div>
+              <span id="timeReadout">0:00</span>
+              <span id="durationReadout">0:00</span>
+            </div>
+          </div>
+
+          <button class="visualizer-toggle-button" type="button" id="visualizerToggle" aria-label="Enter audio visualizer" aria-pressed="false">
+            <span>进入音频可视化</span>
+            <i data-lucide="activity"></i>
+          </button>
+
+          <button class="visualizer-mode-button" type="button" id="visualizerModeToggle" aria-label="Change visualizer animation">
+            <span>光环</span>
+            <i data-lucide="shuffle"></i>
+          </button>
+
+          <button class="import-jump-button" type="button" id="jumpToImportedMusic" aria-label="Show imported music" aria-controls="importedMusicPanels" aria-expanded="false">
+            <span>导入音乐</span>
+            <i data-lucide="plus"></i>
+          </button>
+        </section>
+      </section>
+
+      <section class="sequence-hero" id="consequenceHero" aria-label="Consequence visual sequence" data-frame-count="193">
+        <div class="sequence-sticky">
+          <canvas class="sequence-canvas" id="consequenceCanvas" aria-hidden="true"></canvas>
+          <div class="imported-music-panels" id="importedMusicPanels" aria-label="Imported music spaces" aria-hidden="true">
+            <section class="imported-music-panel imported-music-panel-left" aria-label="Imported music left">
+              <div class="imported-panel-head">
+                <p class="eyebrow">Local import</p>
+                <button class="imported-panel-import" type="button" data-import-music-trigger>
+                  <span>导入</span>
+                  <i data-lucide="plus"></i>
+                </button>
+                <h3>导入音乐</h3>
+              </div>
+              <div class="imported-track-list" id="importedTrackListLeft"></div>
+            </section>
+
+            <section class="imported-music-panel imported-music-panel-right" aria-label="Imported music right">
+              <div class="imported-panel-head">
+                <p class="eyebrow">Local import</p>
+                <button class="imported-panel-import" type="button" data-import-music-trigger>
+                  <span>导入</span>
+                  <i data-lucide="plus"></i>
+                </button>
+                <h3>导入音乐</h3>
+              </div>
+              <div class="imported-track-list" id="importedTrackListRight"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js?v=20260601-browser-ncm"></script>
+  </body>
+</html>
